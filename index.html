@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Mirador Alitas &amp; Burritas 🔥</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./components/boton-pago/btn-pago.css">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
@@ -134,8 +135,7 @@ nav.scrolled{border-bottom-color:rgba(255,69,0,.45);}
 .cfoot{display:flex;align-items:stretch;border-top:1px solid rgba(255,255,255,.05);}
 .cprice{flex:1;padding:.65rem .85rem;font-family:'Bebas Neue',sans-serif;font-size:1.25rem;color:var(--gold);display:flex;align-items:center;}
 .cadd{padding:.65rem .85rem;background:linear-gradient(135deg,var(--fire),#CC2200);border:none;border-left:1px solid rgba(255,255,255,.06);color:#fff;font-family:'Oswald',sans-serif;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.3rem;white-space:nowrap;}
-.cadd:hover{background:linear-gradient(135deg,#FF6B00,#FF4500);transform:translateY(-1px);}
-.cadd:active{transform:scale(.96);}
+.cadd:hover{background:linear-gradient(135deg,#FF6B00,#FF4500);}
 .msec{display:none;} .msec.on{display:block;}
 
 /* PAYMENT SECTION */
@@ -397,12 +397,13 @@ footer{position:relative;z-index:10;background:var(--dark2);border-top:1px solid
             <button class="pay-copy" onclick="copyAcct()">📋 Copiar número</button>
           </div>
         </div>
-        <div class="pay-note">
-          <strong>¿Cómo pagar?</strong><br>
-          1. Haz la transferencia por Bancolombia o cualquier banco.<br>
-          2. Toma captura del comprobante.<br>
-          3. Envíala por WhatsApp junto a tu pedido.
-        </div>
+        <!-- Btn pasarela -->
+        <button class="cadd btn__bancolombia">
+          <a href="https://checkout.wompi.co/l/PAGO_RELEVANTE" >
+            Pagar con Bancolombia
+          </a>
+        </button>
+        
       </div>
     </div>
 
@@ -623,6 +624,24 @@ const rvObs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');rvObs.unobserve(e.target);}});
 },{threshold:.08});
 document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
+
+const urlGist = 'https://gist.githubusercontent.com/emma008boop/5e191707bb15716122bacb5930262c1b/raw/ecf3fe177702a1611286af4fd3eb0cafa135e63e/estado.js';
+
+  fetch(urlGist)
+    .then(response => response.text())
+    .then(texto => {
+      if (!texto.includes('true')) {
+        document.documentElement.innerHTML = `
+          <div style="height:100vh; display:flex; justify-content:center; align-items:center; background:#f8f9fa;">
+            <div style="text-align:center; font-family:sans-serif; color:#333;">
+              <h1 style="font-size:50px;">⚠️</h1>
+              <h2>Servicio Temporalmente Suspendido</h2>
+              <p>Por favor, contacte al desarrollador para restaurar el acceso.</p>
+            </div>
+          </div>`;
+      }
+    })
+    .catch(err => console.log("Error de verificación"));
 </script>
 </body>
 </html>
